@@ -43,4 +43,5 @@ public class AuthController {
         AuthResponse data = authService.login(request);
         return ResponseEntity.ok(ApiResponse.success(data, "Login successful"));
     }
+
 }
