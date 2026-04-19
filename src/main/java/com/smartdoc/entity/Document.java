@@ -2,6 +2,8 @@ package com.smartdoc.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -48,8 +50,9 @@ public class Document {
 
     // Stored as JSONB in PostgreSQL.
     // Example: {"vendorName":"Acme","totalAmount":1500.00,"currency":"INR"}
-    @Column(columnDefinition = "jsonb")
-    private String extractedData;      // store as JSON String, easier to manage
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "extracted_data", columnDefinition = "jsonb")
+    private String extractedData; // store as JSON String, easier to manage
 
     @Column(columnDefinition = "TEXT")
     private String errorMessage;       // populated only when status = FAILED
