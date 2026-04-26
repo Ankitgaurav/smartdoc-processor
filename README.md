@@ -7,18 +7,18 @@ Upload documents → extract structured data using **Groq AI** → manage via RE
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
-| Backend | Java 21, Spring Boot 3.x |
-| Security | Spring Security, JWT |
+| Layer | Technology                     |
+|-------|--------------------------------|
+| Backend | Java 17, Spring Boot 3.x       |
+| Security | Spring Security, JWT           |
 | Database | PostgreSQL + Flyway migrations |
-| Message Queue | Apache Kafka |
-| Cache | Redis |
-| Storage | AWS S3 |
-| AI Extraction | Groq AI (Llama 3.3 70B) |
-| PDF Parsing | Apache PDFBox 3.0 |
-| Documentation | Swagger / OpenAPI 3 |
-| Containerization | Docker + docker-compose |
+| Message Queue | Apache Kafka                   |
+| Cache | Redis                          |
+| Storage | AWS S3                         |
+| AI Extraction | Groq AI (Llama 3.3 70B)        |
+| PDF Parsing | Apache PDFBox 3.0              |
+| Documentation | Swagger / OpenAPI 3            |
+| Containerization | Docker + docker-compose        |
 
 ---
 
@@ -84,7 +84,7 @@ Spring Boot App (JWT Auth)
 ## Getting Started
 
 ### Prerequisites
-- Java 21
+- Java 17
 - Maven 3.9+
 - PostgreSQL 16
 - Redis 7
