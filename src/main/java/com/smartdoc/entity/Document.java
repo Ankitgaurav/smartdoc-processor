@@ -11,57 +11,62 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name="documents")
 @EntityListeners(AuditingEntityListener.class)
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(name = "documents")
 public class Document {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private String filename;     // system-generated UUID filename
+    private String filename;
 
     @Column(nullable = false)
-    private String originalName;    // what the user named the file
+    private String originalName;
 
-    @Column(nullable = false, unique = true, length =500)
-    private String s3Key;          // path inside S3 bucket
+    @Column(nullable = false, unique = true, length = 500)
+    private String s3Key;
 
     @Column(length = 1000)
-    private String s3Url;         // full S3 URL
+    private String s3Url;
 
     @Column(length = 100)
-    private String contentType;        // e.g. application/pdf
+    private String contentType;
 
-    private Long fileSize;             // in bytes
+    private Long fileSize;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false,length=30)
+    @Column(nullable = false, length = 30)
     @Builder.Default
     private DocumentStatus status = DocumentStatus.PENDING;
 
     @Column(length = 64)
-    private String documentHash;       // SHA-256 of file content
+    private String documentHash;
 
-    // Stored as JSONB in PostgreSQL.
-    // Example: {"vendorName":"Acme","totalAmount":1500.00,"currency":"INR"}
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "extracted_data", columnDefinition = "jsonb")
-    private String extractedData; // store as JSON String, easier to manage
+    private String extractedData;
 
-    @Column(columnDefinition = "TEXT")
-    private String errorMessage;       // populated only when status = FAILED
+    @Column(name = "error_message", columnDefinition = "TEXT")
+    private String errorMessage;
 
-    // Many documents → One user
-    // LAZY loading = don't fetch User from DB unless explicitly accessed
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "uploaded_by", nullable = false)
     private User uploadedBy;
+
+    // ── Module 5 additions ──────────────────────────────────
+    @Column(name = "deleted", nullable = false)
+    @Builder.Default
+    private boolean deleted = false;
+
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
+    // ────────────────────────────────────────────────────────
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
@@ -70,6 +75,4 @@ public class Document {
     @LastModifiedDate
     @Column(nullable = false)
     private LocalDateTime updatedAt;
-
-
 }
